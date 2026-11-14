@@ -7,4 +7,14 @@
 
      Unlike the baseline, this file may grow, but every entry is a reviewed decision. -->
 <FindBugsFilter>
+  <!-- D1 (narrowed): EI_EXPOSE_REP and EI_EXPOSE_REP2 are turned off everywhere except classes in a
+       dto package, where they stay enforced (the 34 DTO findings were fixed by copying the collections
+       in each record's compact constructor). Elsewhere the 185 baselined findings are JPA entity
+       associations and collections (Hibernate needs the real managed object: a defensive copy breaks
+       dirty checking, lazy loading and cascades; for example UseCase.mainSteps is cascade ALL with
+       orphanRemoval, so a copy makes Hibernate throw "collection no longer referenced"), Spring
+       singletons injected by constructor (shared by design, copying is meaningless), and a few plain
+       holders (PeerEvaluationAverage, WeeklyPeerEvaluationReport, DocumentTemplate) plus
+       MyUserPrincipal, the UserDetails wrapper around a user entity. None of them is a trust boundary. -->
+  <Match><Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2"/><Not><Class name="~.*\.dto\..*"/></Not></Match>
 </FindBugsFilter>

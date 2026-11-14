@@ -16,6 +16,7 @@ public class Result {
 
 
     public Result() {
+        // Explicit no-arg constructor: this class declares other constructors, so Java would not supply a default
     }
 
     public Result(boolean flag, Integer code, String message) {

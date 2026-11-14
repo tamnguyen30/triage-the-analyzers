@@ -13,5 +13,18 @@
          xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
     <description>PMD quickstart, with Project Pulse's decisions.</description>
     <rule ref="rulesets/java/quickstart.xml">
+        <!-- D2: UncommentedEmptyConstructor and UnnecessaryConstructor turned off. The 40 baselined
+             findings are public no-argument constructors, nearly all on JPA entities, where Hibernate
+             requires one. Declaring it explicitly is deliberate: a class that relied on the implicit
+             default would lose it the day someone adds a constructor with parameters, and Hibernate
+             would then fail at runtime. The same comment on every entity would say nothing new.
+             Not JPA entities (small holders, their constructors not reviewed one by one): PeerEvaluationAverage, RatingAverage, Result, WeeklyPeerEvaluationReport. -->
+        <exclude name="UncommentedEmptyConstructor"/>
+        <exclude name="UnnecessaryConstructor"/>
+        <!-- D4: GuardLogStatement turned off. Project Pulse logs through SLF4J placeholders, which skip
+             the formatting when the level is off. The 4 baselined findings pass only cheap arguments
+             (getEmail, getSectionName, size, getName), so an isEnabled guard saves nothing and adds an
+             if block. An expensive argument would be caught in review. -->
+        <exclude name="GuardLogStatement"/>
     </rule>
 </ruleset>

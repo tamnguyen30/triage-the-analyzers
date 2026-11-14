@@ -7,6 +7,7 @@ public class RatingAverage {
 
 
     public RatingAverage() {
+        // Explicit no-arg constructor: this class declares other constructors, so Java would not supply a default
     }
 
     public RatingAverage(Integer criterionId, Double averageScore) {

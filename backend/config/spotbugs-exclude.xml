@@ -14,6 +14,8 @@
        Example: UseCase.mainSteps is cascade ALL with orphanRemoval, so replacing it with a copy makes
        Hibernate throw "collection no longer referenced". A List.copyOf in a request DTO would throw a
        NullPointerException when Jackson leaves a field null. None of them hands a mutable internal to
-       untrusted code. -->
+       untrusted code. A few flagged classes are plain data or report holders (PeerEvaluationAverage,
+       WeeklyPeerEvaluationReport, DocumentTemplate, ArtifactTraceability) and MyUserPrincipal, the
+       UserDetails wrapper around a user entity; none of them is a trust boundary. -->
   <Match><Package name="~team\.projectpulse\..*"/><Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2"/></Match>
 </FindBugsFilter>

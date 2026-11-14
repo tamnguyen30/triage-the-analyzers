@@ -7,4 +7,13 @@
 
      Unlike the baseline, this file may grow, but every entry is a reviewed decision. -->
 <FindBugsFilter>
+  <!-- D1: EI_EXPOSE_REP and EI_EXPOSE_REP2 turned off project-wide. The 219 baselined findings are JPA
+       entity associations and collections (Hibernate needs the real managed object: a defensive copy
+       breaks dirty checking, lazy loading and cascades), Spring singletons injected by constructor
+       (shared by design, copying is meaningless), and per-request DTOs that converters fill and read.
+       Example: UseCase.mainSteps is cascade ALL with orphanRemoval, so replacing it with a copy makes
+       Hibernate throw "collection no longer referenced". A List.copyOf in a request DTO would throw a
+       NullPointerException when Jackson leaves a field null. None of them hands a mutable internal to
+       untrusted code. -->
+  <Match><Package name="~team\.projectpulse\..*"/><Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2"/></Match>
 </FindBugsFilter>

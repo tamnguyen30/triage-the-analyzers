@@ -8,6 +8,8 @@ import team.projectpulse.user.dto.PeerEvaluationUserDto;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 
 public record UseCaseDto(
         Long id,
@@ -34,4 +36,11 @@ public record UseCaseDto(
         PeerEvaluationUserDto updatedBy,
         Integer version,
         UseCaseLockDto lock) {
+
+    public UseCaseDto {
+        secondaryActorIds = secondaryActorIds == null ? null : Collections.unmodifiableSet(new LinkedHashSet<>(secondaryActorIds));
+        preconditions = preconditions == null ? null : Collections.unmodifiableSet(new LinkedHashSet<>(preconditions));
+        postconditions = postconditions == null ? null : Collections.unmodifiableSet(new LinkedHashSet<>(postconditions));
+        mainSteps = mainSteps == null ? null : List.copyOf(mainSteps);
+    }
 }
